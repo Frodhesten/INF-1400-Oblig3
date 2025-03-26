@@ -12,7 +12,7 @@ clock = pygame.time.Clock()
 spaceship1 = Spaceship(100, 300, "rocket.png")
 
 def start_game(self):
-
+    pass
 
 if __name__ == "__name__":
     start_game.start()
