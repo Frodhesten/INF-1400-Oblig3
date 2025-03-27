@@ -1,5 +1,4 @@
 import pygame
-from spaceship import Spaceship
 import obstacle
 import config
 import spaceship
