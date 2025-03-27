@@ -39,7 +39,7 @@ class Spaceship(pygame.sprite.Sprite):
     def shoot(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN]:
-            self.bullet_group.add(Bullet(self.position[0], self.position[1], "bullet.png", self.velocity))
+            self.bullet_group.add(Bullet(self.position[0], self.position[1], "images/bullet.png", self.velocity))
 
     def gravity(self):
         self.velocity[1] += GRAVITY

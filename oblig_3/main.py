@@ -13,7 +13,10 @@ clock = pygame.time.Clock()
 
 spaceship_group = pygame.sprite.Group()
 for _ in range(2):
-    spaceship_group.add(Spaceship(100, 300, "rocket.png"))
+    spaceship_group.add(spaceship.Spaceship(100, 300, "images/rocket.png"))
+
+obstacle_group = pygame.sprite.Group()
+obstacle_group.add(obstacle.Obstacle("images/obstacle.png"))
 
 def start_game(self):
     while True:
