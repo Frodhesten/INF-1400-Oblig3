@@ -44,6 +44,7 @@ class Spaceship(pygame.sprite.Sprite):
 
     def gravity(self):
         self.velocity[1] += GRAVITY
+        #bruh
 
     def update(self):
         self.gravity()
