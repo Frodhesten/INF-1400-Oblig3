@@ -50,6 +50,6 @@ def start_game(self):
         pygame.display.update()
 
 if __name__ == "__name__":
-    start_game.start()
+    start_game()
 
 
