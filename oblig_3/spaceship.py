@@ -20,8 +20,10 @@ class Spaceship(pygame.sprite.Sprite):
     def thrust(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_UP]:
-            if self.fuel > 0:   
-                self.velocity += 1
+            if self.fuel > 0: 
+                thrust_velocity = pygame.math.Vector2(self.angle)
+                thrust_velocity.clamp_magnitude_ip(1)
+                self.velocity += thrust_velocity
                 self.fuel -= 1 
 
     def rotate(self):
@@ -39,7 +41,7 @@ class Spaceship(pygame.sprite.Sprite):
     def shoot(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN]:
-            bullet_velocity =  pygame.math.Vector2(self.angle)
+            bullet_velocity = pygame.math.Vector2(self.angle)
             bullet_velocity.clamp_magnitude_ip(2)
             self.bullet_group.add(Bullet(self.position[0], self.position[1], "images/bullet.png", bullet_velocity))
 
