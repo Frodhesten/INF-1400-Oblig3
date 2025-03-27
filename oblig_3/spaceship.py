@@ -17,7 +17,6 @@ class Spaceship(pygame.sprite.Sprite):
         self.thrust_vector = pygame.math.Vector2(0, 0)
         self.bullet_group = pygame.sprite.Group()
 
-
     def thrust(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_UP]:
@@ -44,7 +43,6 @@ class Spaceship(pygame.sprite.Sprite):
 
     def gravity(self):
         self.velocity[1] += GRAVITY
-        #bruh
 
     def update(self):
         self.gravity()
