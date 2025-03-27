@@ -9,7 +9,8 @@ class Spaceship(pygame.sprite.Sprite):
     def __init__(self, x, y, images_rocket):
         super().__init__()
         self.original_image = pygame.image.load(images_rocket)  
-        self.image = self.original_image.copy()
+        #self.image = self.original_image.copy()
+        self.image = pygame.transform.scale(self.original_image,(20,20))
         self.rect = self.image.get_rect(center=(x, y))
         self.position = pygame.math.Vector2(x, y)
         self.velocity = pygame.math.Vector2(0, 0)
