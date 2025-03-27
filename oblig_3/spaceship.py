@@ -1,6 +1,6 @@
 import pygame
-import math
 import obstacle
+
 
 class Spaceship(pygame.sprite.Sprite):
     def __init__(self, x, y, images_rocket):
@@ -15,10 +15,9 @@ class Spaceship(pygame.sprite.Sprite):
 
     def thrust(self):
         key = pygame.key.get_pressed()
-        if key[pygame.K_DOWN]:
-            if self.fuel > 0:  
-                
-                self.velocity += thrust_vector  
+        if key[pygame.K_UP]:
+            if self.fuel > 0:   
+                self.velocity += 1
                 self.fuel -= 1 
 
     def rotate(self):
