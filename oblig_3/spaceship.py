@@ -50,13 +50,13 @@ class Spaceship(pygame.sprite.Sprite):
     def gravity(self):
         self.velocity[1] += GRAVITY
 
-    def fuel(self):
+    def fuel_ship(self):
         if self.rect.colliderect(Landing_pad.rect):
             self.fuel = STARTING_FUEL
 
     def update(self):
         self.gravity()
-        self.fuel()
+        self.fuel_ship()
         self.position += self.velocity
         self.rect.center = self.position
 
