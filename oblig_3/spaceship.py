@@ -47,16 +47,16 @@ class Spaceship(pygame.sprite.Sprite):
             bullet_velocity.clamp_magnitude_ip(2)
             self.bullet_group.add(Bullet(self.position[0], self.position[1], "images/bullet.png", bullet_velocity))
 
-    #def gravity(self):
-     #   self.velocity[1] += GRAVITY
+    def gravity(self):
+        self.velocity[1] += GRAVITY
 
-    def fuel_ship(self):
-        if self.rect.colliderect(Landing_pad.rect):
+    def fuel_ship(self, fuel_group):
+        if pygame.sprite.spritecollide(self, fuel_group, False):  #chat
             self.fuel = STARTING_FUEL
 
-    def update(self):
-        #self.gravity()
-        self.fuel_ship()
+    def update(self, fuel_group):
+        self.gravity()
+        self.fuel_ship(fuel_group)
         self.position += self.velocity
         self.rect.center = self.position
 

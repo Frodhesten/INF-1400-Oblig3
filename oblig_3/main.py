@@ -44,7 +44,7 @@ def start_game():
 
         pygame.sprite.groupcollide(spaceship_group, obstacle_group, False, True)
 
-        spaceship_group.update()
+        spaceship_group.update(fuel_group)
         spaceship_group.draw(screen)
 
         obstacle_group.draw(screen)
