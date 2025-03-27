@@ -10,7 +10,7 @@ class Spaceship(pygame.sprite.Sprite):
         super().__init__()
         self.original_image = pygame.image.load(images_rocket)  
         #self.image = self.original_image.copy()
-        self.image = pygame.transform.scale(self.original_image,(20,20))
+        self.image = pygame.transform.scale(self.original_image,(100,100))
         self.rect = self.image.get_rect(center=(x, y))
         self.position = pygame.math.Vector2(x, y)
         self.velocity = pygame.math.Vector2(0, 0)
@@ -22,11 +22,10 @@ class Spaceship(pygame.sprite.Sprite):
     def thrust(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_UP]:
-            if self.fuel > 0: 
-                thrust_velocity = pygame.math.Vector2(self.angle)
-                thrust_velocity.clamp_magnitude_ip(1)
-                self.velocity += thrust_velocity
-                self.fuel -= 1 
+            #if self.fuel > 0: 
+            thrust_velocity = pygame.math.Vector2.from_polar((10, self.angle))
+            self.velocity += thrust_velocity
+                #self.fuel -= 1 
 
     def rotate(self):
         key = pygame.key.get_pressed()
@@ -36,7 +35,6 @@ class Spaceship(pygame.sprite.Sprite):
         if key[pygame.K_RIGHT]:
             self.angle -= 5
             #pygame.transform.rotate(self.image, -5)
-            
         self.image = pygame.transform.rotate(self.original_image, self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
 
