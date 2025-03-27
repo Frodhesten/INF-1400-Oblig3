@@ -3,6 +3,7 @@ import obstacle
 
 
 class Spaceship(pygame.sprite.Sprite):
+
     def __init__(self, x, y, images_rocket):
         super().__init__()
         self.original_image = pygame.image.load(images_rocket)  
@@ -30,8 +31,10 @@ class Spaceship(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.original_image, self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
 
-    #def shoot(self):
-        
+    def shoot(self):
+        key = pygame.key.get_pressed()
+        if key[pygame.K_DOWN]:
+            
 
     #def gravity(self):
 
