@@ -42,7 +42,7 @@ def start_game():
         
         screen.blit(background, (0, 0))
 
-        pygame.sprite.groupcollide(spaceship_group, obstacle_group, False, True)
+        pygame.sprite.collide_mask(spaceship.Spaceship.image, obstacle.Obstacle.image, True, False)
 
         spaceship_group.update(fuel_group)
         spaceship_group.draw(screen)

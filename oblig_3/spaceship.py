@@ -18,6 +18,7 @@ class Spaceship(pygame.sprite.Sprite):
         self.fuel = STARTING_FUEL
         self.thrust_vector = pygame.math.Vector2(0, 0)
         self.bullet_group = pygame.sprite.Group()
+        self.mask = pygame.mask.from_surface(self.image)
 
     def thrust(self):
         key = pygame.key.get_pressed()
@@ -59,6 +60,7 @@ class Spaceship(pygame.sprite.Sprite):
         self.rotate()
         self.position += self.velocity
         self.rect.center = self.position
+        
 
 
 
