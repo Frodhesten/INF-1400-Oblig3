@@ -1,10 +1,10 @@
 import pygame
-import math
 import obstacle
 from config import GRAVITY, STARTING_FUEL
 from bullet import Bullet
 
 class Spaceship(pygame.sprite.Sprite):
+
     def __init__(self, x, y, images_rocket):
         super().__init__()
         self.original_image = pygame.image.load(images_rocket)  
@@ -20,10 +20,9 @@ class Spaceship(pygame.sprite.Sprite):
 
     def thrust(self):
         key = pygame.key.get_pressed()
-        if key[pygame.K_DOWN]:
-            if self.fuel > 0:  
-                
-                self.velocity += self.thrust_vector  
+        if key[pygame.K_UP]:
+            if self.fuel > 0:   
+                self.velocity += 1
                 self.fuel -= 1 
 
     def rotate(self):
@@ -39,8 +38,10 @@ class Spaceship(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def shoot(self):
-        self.bullet_group.add(Bullet(self.position[0], self.position[1], "bullet.png", self.velocity))
-        
+        key = pygame.key.get_pressed()
+        if key[pygame.K_DOWN]:
+            self.bullet_group.add(Bullet(self.position[0], self.position[1], "bullet.png", self.velocity))
+
     def gravity(self):
         self.velocity[1] += GRAVITY
 
