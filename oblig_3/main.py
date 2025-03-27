@@ -6,8 +6,13 @@ import landing_pad
 
 pygame.init()
 
+BG_FILENAME = "images/BG.jpeg"
+screen = pygame.display.set_mode((config.SCREEN_X, config.SCREEN_Y))
+background = pygame.image.load(BG_FILENAME)
+background = pygame.transform.scale(background, (config.SCREEN_X, config.SCREEN_Y))
+background.convert()
 
-screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+screen = pygame.display.set_mode((config.SCREEN_X, config.SCREEN_Y))
 clock = pygame.time.Clock()
 
 #spaceship1 = Spaceship(100, 300, "rocket.png")

@@ -10,3 +10,5 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(x, y))
         self.position = pygame.math.Vector2(x, y)
         self.velocity = pygame.math.Vector2(0, 0)
+    
+    
