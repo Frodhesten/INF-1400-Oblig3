@@ -18,6 +18,7 @@ class Spaceship(pygame.sprite.Sprite):
         self.fuel = STARTING_FUEL
         self.thrust_vector = pygame.math.Vector2(0, 0)
         self.bullet_group = pygame.sprite.Group()
+        self.score = 0
 
     def thrust(self):
         key = pygame.key.get_pressed()
@@ -59,5 +60,3 @@ class Spaceship(pygame.sprite.Sprite):
         self.fuel_ship(fuel_group)
         self.position += self.velocity
         self.rect.center = self.position
-
-
