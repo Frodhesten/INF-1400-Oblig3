@@ -8,7 +8,7 @@ pygame.init()
 
 BG_FILENAME = "images/BG.jpeg"
 FUEL_FILENAME = "images/fuel.png"
-OBSTACLE_FILENAME = "imgaes/obstacle.png"
+OBSTACLE_FILENAME = "images/obstacle.png"
 
 fuel_img = pygame.image.load(FUEL_FILENAME)
 fuel_img = pygame.transform.scale(fuel_img, (20, 20))
@@ -23,40 +23,45 @@ clock = pygame.time.Clock()
 
 #spaceship1 = Spaceship(100, 300, "rocket.png")
 
-spaceship_group = pygame.sprite.Group()
-for _ in range(2):
-    spaceship_group.add(spaceship.Spaceship(100, 300, "images/rocket.png"))
+class Game:
 
-obstacle_group = pygame.sprite.Group()
-obstacle_group.add(obstacle.Obstacle("images/obstacle.png", config.SCREEN_X / 2, config.SCREEN_Y / 2))
+    spaceship_group = pygame.sprite.Group()
+    for _ in range(2):
+        spaceship_group.add(spaceship.Spaceship(100, 300, "images/rocket.png"))
 
-fuel_group = pygame.sprite.Group()
-fuel_group.add(landing_pad.Landing_pad("images/fuel.png", 50, config.SCREEN_Y/2))
-fuel_group.add(landing_pad.Landing_pad("images/fuel.png", config.SCREEN_X-150, config.SCREEN_Y/2))
+    obstacle_group = pygame.sprite.Group()
+    obstacle_group.add(obstacle.Obstacle("images/obstacle.png", config.SCREEN_X / 2, config.SCREEN_Y / 2))
 
-def start_game():
-    while True:
-        event = pygame.event.poll()
-        if event.type == pygame.QUIT:
-            break
-        
-        screen.blit(background, (0, 0))
+    fuel_group = pygame.sprite.Group()
+    fuel_group.add(landing_pad.Landing_pad("images/fuel.png", 50, config.SCREEN_Y/2))
+    fuel_group.add(landing_pad.Landing_pad("images/fuel.png", config.SCREEN_X-150, config.SCREEN_Y/2))
 
-        pygame.sprite.collide_mask(spaceship.Spaceship.image, obstacle.Obstacle.image, True, False)
+    bullet_group = pygame.sprite.Group()
 
-        spaceship_group.update(fuel_group)
-        spaceship_group.draw(screen)
+    def start_game(self):
+        while True:
+            event = pygame.event.poll()
+            if event.type == pygame.QUIT:
+                break
+            
+            screen.blit(background, (0, 0))
 
-        obstacle_group.draw(screen)
-        fuel_group.draw(screen)
+            #pygame.sprite.collide_mask(spaceship.Spaceship.image, obstacle.Obstacle.image, True, False)
 
-        #spaceship.bullet_group.update()
-        #spaceship.bullet_group.draw(screen)
+            Game.spaceship_group.update(Game.fuel_group)
+            Game.spaceship_group.draw(screen)
 
-        pygame.display.update()
-        clock.tick(60)
+            Game.obstacle_group.draw(screen)
+            Game.fuel_group.draw(screen)
+
+            #spaceship.bullet_group.update()
+            #spaceship.bullet_group.draw(screen)
+
+            pygame.display.update()
+            clock.tick(60)
 
 if __name__ == "__main__":
-    start_game()
+    #game = Game()
+    Game().start_game()
 
 
