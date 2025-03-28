@@ -36,8 +36,6 @@ class Game:
     fuel_group.add(landing_pad.Landing_pad("images/fuel.png", 50, config.SCREEN_Y/2))
     fuel_group.add(landing_pad.Landing_pad("images/fuel.png", config.SCREEN_X-150, config.SCREEN_Y/2))
 
-    #bullet_group = pygame.sprite.Group()
-
     def start_game(self):
         while True:
             event = pygame.event.poll()

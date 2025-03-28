@@ -7,7 +7,6 @@ from landing_pad import Landing_pad
 
 class Spaceship(pygame.sprite.Sprite):
 
-
     bullet_group = pygame.sprite.Group()
 
     def __init__(self, x, y, images_rocket):
@@ -42,12 +41,6 @@ class Spaceship(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.original_image, -self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
 
-    #def shoot(self):
-     #   key = pygame.key.get_pressed()
-      #  if key[pygame.K_DOWN]:
-       #     bullet_velocity = pygame.math.Vector2.from_polar((0.5, self.angle - 90))
-        #    bullet_group.add(Bullet(self.position[0], self.position[1], "images/bullet.png", bullet_velocity))
-
     def shoot(self):
         now = pygame.time.get_ticks()
         cooldown = 1000
@@ -70,19 +63,31 @@ class Spaceship(pygame.sprite.Sprite):
             self.fuel = STARTING_FUEL
 
     def wall_crash(self):
-        if self.rect.left < 0: 
+        if self.position.x < 0: 
+            self.position = pygame.math.Vector2(100, 300)
             self.rect.topleft = (100, 300)
+            self.angle = 0
+            self.velocity = pygame.math.Vector2(0, 0)
         # points -= 1
-        elif self.rect.right > config.SCREEN_X:  
+        elif self.position.x > config.SCREEN_X:  
+            self.position = pygame.math.Vector2(100, 300)
             self.rect.topleft = (100, 300)
+            self.angle = 0
+            self.velocity = pygame.math.Vector2(0, 0)
         # points -= 1
-        elif self.rect.top < 0:  
+        elif self.position.y < 0:  
+            self.position = pygame.math.Vector2(100, 300)
             self.rect.topleft = (100, 300)
+            self.angle = 0
+            self.velocity = pygame.math.Vector2(0, 0)
         # points -= 1
-        elif self.rect.bottom > config.SCREEN_Y:  
+        elif self.position.y > config.SCREEN_Y:  
+            self.position = pygame.math.Vector2(100, 300)
             self.rect.topleft = (100, 300)
+            self.angle = 0
+            self.velocity = pygame.math.Vector2(0, 0)
         # points -= 1
-            
+    
 
     def update(self, fuel_group):
         self.gravity()
@@ -92,7 +97,8 @@ class Spaceship(pygame.sprite.Sprite):
         self.shoot()
         self.wall_crash()
         self.position += self.velocity
-        self.rect.center = self.position
-        
+        #self.rect.center = self.position
+        self.rect.center = (int(self.position.x), int(self.position.y))
+
 
 
