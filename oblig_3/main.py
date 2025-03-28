@@ -36,7 +36,7 @@ class Game:
     fuel_group.add(landing_pad.Landing_pad("images/fuel.png", 50, config.SCREEN_Y/2))
     fuel_group.add(landing_pad.Landing_pad("images/fuel.png", config.SCREEN_X-150, config.SCREEN_Y/2))
 
-    bullet_group = pygame.sprite.Group()
+    #bullet_group = pygame.sprite.Group()
 
     def start_game(self):
         while True:
@@ -54,8 +54,8 @@ class Game:
             Game.obstacle_group.draw(screen)
             Game.fuel_group.draw(screen)
 
-            #spaceship.bullet_group.update()
-            #spaceship.bullet_group.draw(screen)
+            spaceship.Spaceship.bullet_group.update()
+            spaceship.Spaceship.bullet_group.draw(screen)
 
             pygame.display.update()
             clock.tick(60)
