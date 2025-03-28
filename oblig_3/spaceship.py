@@ -1,4 +1,5 @@
 import pygame
+import config
 from obstacle import Obstacle
 from config import GRAVITY, STARTING_FUEL
 from bullet import Bullet
@@ -22,6 +23,7 @@ class Spaceship(pygame.sprite.Sprite):
         self.thrust_vector = pygame.math.Vector2(0, 0)
         self.mask = pygame.mask.from_surface(self.image)
         self.score = 0
+        self.last_shot = 0
 
     def thrust(self):
         key = pygame.key.get_pressed()
@@ -47,12 +49,18 @@ class Spaceship(pygame.sprite.Sprite):
         #    bullet_group.add(Bullet(self.position[0], self.position[1], "images/bullet.png", bullet_velocity))
 
     def shoot(self):
+        now = pygame.time.get_ticks()
+        cooldown = 1000
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_DOWN]:
-            bullet_speed = 1  
-            bullet_velocity = pygame.math.Vector2.from_polar((bullet_speed, self.angle - 90))
-            bullet = Bullet(self.position.x, self.position.y, "images/bullet.png", bullet_velocity)
-            Spaceship.bullet_group.add(bullet)
+            now = pygame.time.get_ticks()
+            if now - self.last_shot >= cooldown:
+                bullet_speed = 1 
+                bullet_velocity = pygame.math.Vector2.from_polar((bullet_speed, self.angle - 90))
+                bullet = Bullet(self.position.x, self.position.y, "images/bullet.png", bullet_velocity)
+                Spaceship.bullet_group.add(bullet)
+                self.last_shot = now
 
     def gravity(self):
         self.velocity[1] += GRAVITY
@@ -61,12 +69,28 @@ class Spaceship(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self, fuel_group, False):  #chat
             self.fuel = STARTING_FUEL
 
+    def wall_crash(self):
+        if self.rect.left < 0: 
+            self.rect.topleft = (100, 300)
+        # points -= 1
+        elif self.rect.right > config.SCREEN_X:  
+            self.rect.topleft = (100, 300)
+        # points -= 1
+        elif self.rect.top < 0:  
+            self.rect.topleft = (100, 300)
+        # points -= 1
+        elif self.rect.bottom > config.SCREEN_Y:  
+            self.rect.topleft = (100, 300)
+        # points -= 1
+            
+
     def update(self, fuel_group):
         self.gravity()
         self.fuel_ship(fuel_group)
         self.thrust()
         self.rotate()
         self.shoot()
+        self.wall_crash()
         self.position += self.velocity
         self.rect.center = self.position
         
