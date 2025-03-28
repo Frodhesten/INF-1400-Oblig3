@@ -21,8 +21,6 @@ background = background.convert()
 
 clock = pygame.time.Clock()
 
-#spaceship1 = Spaceship(100, 300, "rocket.png")
-
 class Game:
 
     spaceship_group = pygame.sprite.Group()
@@ -37,6 +35,7 @@ class Game:
     fuel_group.add(landing_pad.Landing_pad("images/fuel.png", config.SCREEN_X-150, config.SCREEN_Y/2))
 
     def start_game(self):
+
         while True:
             event = pygame.event.poll()
             if event.type == pygame.QUIT:
@@ -44,13 +43,13 @@ class Game:
             
             screen.blit(background, (0, 0))
 
-            #pygame.sprite.collide_mask(spaceship.Spaceship.image, obstacle.Obstacle.image, True, False)
-
-            Game.spaceship_group.update(Game.fuel_group)
+            Game.spaceship_group.update(Game.fuel_group, Game.obstacle_group)
             Game.spaceship_group.draw(screen)
 
             Game.obstacle_group.draw(screen)
             Game.fuel_group.draw(screen)
+  
+
 
             spaceship.Spaceship.bullet_group.update()
             spaceship.Spaceship.bullet_group.draw(screen)

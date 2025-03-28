@@ -40,6 +40,7 @@ class Spaceship(pygame.sprite.Sprite):
             self.angle -= 5
         self.image = pygame.transform.rotate(self.original_image, - self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def shoot(self):
         now = pygame.time.get_ticks()
@@ -55,7 +56,6 @@ class Spaceship(pygame.sprite.Sprite):
                 Spaceship.bullet_group.add(bullet)
                 self.last_shot = now
 
-
     def gravity(self):
         self.velocity[1] += GRAVITY
 
@@ -63,43 +63,43 @@ class Spaceship(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self, fuel_group, False):  #chat
             self.fuel = STARTING_FUEL
 
+    def reset_position(self):
+        start_pos = pygame.math.Vector2(100, 300)
+        self.position = start_pos
+        self.rect.topleft = (100, 300)
+        self.angle = 0
+        self.velocity = pygame.math.Vector2(0, 0)
+
     def wall_crash(self):
         if self.position.x < 0: 
-            self.position = pygame.math.Vector2(100, 300)
-            self.rect.topleft = (100, 300)
-            self.angle = 0
-            self.velocity = pygame.math.Vector2(0, 0)
+            self.reset_position()
         # points -= 1
         elif self.position.x > config.SCREEN_X:  
-            self.position = pygame.math.Vector2(100, 300)
-            self.rect.topleft = (100, 300)
-            self.angle = 0
-            self.velocity = pygame.math.Vector2(0, 0)
+            self.reset_position()
         # points -= 1
         elif self.position.y < 0:  
-            self.position = pygame.math.Vector2(100, 300)
-            self.rect.topleft = (100, 300)
-            self.angle = 0
-            self.velocity = pygame.math.Vector2(0, 0)
+            self.reset_position()
         # points -= 1
         elif self.position.y > config.SCREEN_Y:  
-            self.position = pygame.math.Vector2(100, 300)
-            self.rect.topleft = (100, 300)
-            self.angle = 0
-            self.velocity = pygame.math.Vector2(0, 0)
+            self.reset_position()
         # points -= 1
-    
-
-    def update(self, fuel_group):
+        
+    def update(self, fuel_group, obstacle_group):
         self.gravity()
         self.fuel_ship(fuel_group)
         self.thrust()
         self.rotate()
         self.shoot()
         self.wall_crash()
+
         self.position += self.velocity
+
+        if pygame.sprite.spritecollide(self, obstacle_group, False, pygame.sprite.collide_mask):
+            self.reset_position()
+
         self.rect.center = self.position
         self.rect.center = (int(self.position.x), int(self.position.y))
+
 
 
 

@@ -5,7 +5,7 @@ class Bullet(pygame.sprite.Sprite):
 
     def __init__(self, x, y, image_path, velocity, angle):
         super().__init__()
-        # Last inn og roter bildet basert på angitt vinkel
+
         original_image = pygame.image.load(image_path).convert_alpha()
         rotated_image = pygame.transform.rotate(original_image, - angle)
         self.image = pygame.transform.scale(rotated_image, (50, 50))
