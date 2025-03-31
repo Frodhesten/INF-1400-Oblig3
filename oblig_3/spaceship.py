@@ -27,10 +27,10 @@ class Spaceship(pygame.sprite.Sprite):
     def thrust(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_UP]:
-            #if self.fuel > 0: 
-            thrust_velocity = pygame.math.Vector2.from_polar((0.1, self.angle - 90))
-            self.velocity += thrust_velocity
-            #self.fuel -= 1 
+            if self.fuel > 0: 
+                thrust_velocity = pygame.math.Vector2.from_polar((0.1, self.angle - 90))
+                self.velocity += thrust_velocity
+                self.fuel -= 0.5
 
     def rotate(self):
         key = pygame.key.get_pressed()
@@ -69,20 +69,21 @@ class Spaceship(pygame.sprite.Sprite):
         self.rect.topleft = (100, 300)
         self.angle = 0
         self.velocity = pygame.math.Vector2(0, 0)
+        self.fuel = 100
 
     def wall_crash(self):
         if self.position.x < 0: 
             self.reset_position()
-        # points -= 1
+        # self.score -= 1
         elif self.position.x > config.SCREEN_X:  
             self.reset_position()
-        # points -= 1
+        # self.score -= 1
         elif self.position.y < 0:  
             self.reset_position()
-        # points -= 1
+        # self.score= 1
         elif self.position.y > config.SCREEN_Y:  
             self.reset_position()
-        # points -= 1
+        # self.score -= 1
         
     def update(self, fuel_group, obstacle_group):
         self.gravity()
