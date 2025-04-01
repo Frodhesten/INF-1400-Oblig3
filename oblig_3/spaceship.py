@@ -7,7 +7,8 @@ from landing_pad import Landing_pad
 
 class Spaceship(pygame.sprite.Sprite):
 
-    bullet_group = pygame.sprite.Group()
+    bullet_1_group = pygame.sprite.Group()
+    bullet_2_group = pygame.sprite.Group()
 
     def __init__(self, x, y, images_rocket, player_num):
         super().__init__()
@@ -70,7 +71,7 @@ class Spaceship(pygame.sprite.Sprite):
                     bullet_velocity = pygame.math.Vector2.from_polar((bullet_speed, self.angle - 90))
                     
                     bullet = Bullet(self.position.x, self.position.y, "images/bullet.png", bullet_velocity, self.angle - 90)
-                    Spaceship.bullet_group.add(bullet)
+                    Spaceship.bullet_1_group.add(bullet)
                     self.last_shot = now
 
         elif self.player == 2:
@@ -84,7 +85,7 @@ class Spaceship(pygame.sprite.Sprite):
                     bullet_velocity = pygame.math.Vector2.from_polar((bullet_speed, self.angle - 90))
                     
                     bullet = Bullet(self.position.x, self.position.y, "images/bullet.png", bullet_velocity, self.angle - 90)
-                    Spaceship.bullet_group.add(bullet)
+                    Spaceship.bullet_2_group.add(bullet)
                     self.last_shot = now
 
     def gravity(self):
@@ -126,7 +127,6 @@ class Spaceship(pygame.sprite.Sprite):
             self.points -= 1
         
     def update(self, fuel_group, obstacle_group):
-    
         self.gravity()
         self.fuel_ship(fuel_group)
         self.thrust()            
@@ -136,10 +136,19 @@ class Spaceship(pygame.sprite.Sprite):
 
         self.position += self.velocity
 
-
         if pygame.sprite.spritecollide(self, obstacle_group, False, pygame.sprite.collide_mask):
             self.reset_position()
             self.points -= 1
+
+        if self.player == 1:
+            if pygame.sprite.spritecollide(self, Spaceship.bullet_2_group, True, pygame.sprite.collide_mask):
+                self.reset_position()
+                self.points -= 1
+        if self.player == 2:
+            if pygame.sprite.spritecollide(self, Spaceship.bullet_1_group, True, pygame.sprite.collide_mask):
+                self.reset_position()
+                self.points -= 1
+        
 
         self.rect.center = self.position
         self.rect.center = (int(self.position.x), int(self.position.y))

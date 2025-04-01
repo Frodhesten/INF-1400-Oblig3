@@ -24,9 +24,8 @@ clock = pygame.time.Clock()
 class Game:
 
     spaceship_group = pygame.sprite.Group()
-    for _ in range(2):
-        spaceship_group.add(spaceship.Spaceship(100, 300, "images/rocket.png", 1))
-        spaceship_group.add(spaceship.Spaceship(config.SCREEN_X-100, 300, "images/rocket2.png", 2))
+    spaceship_group.add(spaceship.Spaceship(100, 300, "images/rocket.png", 1))
+    spaceship_group.add(spaceship.Spaceship(config.SCREEN_X-100, 300, "images/rocket2.png", 2))
 
     obstacle_group = pygame.sprite.Group()
     obstacle_group.add(obstacle.Obstacle("images/obstacle.png", config.SCREEN_X / 2, config.SCREEN_Y / 2))
@@ -61,8 +60,11 @@ class Game:
 
             Game.obstacle_group.draw(screen)
 
-            spaceship.Spaceship.bullet_group.update()
-            spaceship.Spaceship.bullet_group.draw(screen)
+            spaceship.Spaceship.bullet_1_group.update()
+            spaceship.Spaceship.bullet_1_group.draw(screen)
+
+            spaceship.Spaceship.bullet_2_group.update()
+            spaceship.Spaceship.bullet_2_group.draw(screen)
 
             for spaceship_instance in Game.spaceship_group: #chat
                 if spaceship_instance.player == 1:
@@ -71,6 +73,8 @@ class Game:
                 elif spaceship_instance.player == 2:
                     self.print_text(f"Fuel: {int(spaceship_instance.fuel)}", config.SCREEN_X - 200, 10)
                     self.print_text(f"Points: {int(spaceship_instance.points)}", config.SCREEN_X - 200, 30)
+            
+            
                 
             pygame.display.set_caption('Oblig 3 INF-1400')
             pygame.display.update()

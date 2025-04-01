@@ -9,6 +9,7 @@ class Bullet(pygame.sprite.Sprite):
         original_image = pygame.image.load(image_path).convert_alpha()
         rotated_image = pygame.transform.rotate(original_image, - angle)
         self.image = pygame.transform.scale(rotated_image, (50, 50))
+        self.mask = pygame.mask.from_surface(self.image)
         
         self.rect = self.image.get_rect(center=(x, y))
         self.position = pygame.math.Vector2(x, y)
