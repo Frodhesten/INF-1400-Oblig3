@@ -9,7 +9,7 @@ class Spaceship(pygame.sprite.Sprite):
 
     bullet_group = pygame.sprite.Group()
 
-    def __init__(self, x, y, images_rocket):
+    def __init__(self, x, y, images_rocket, player_num):
         super().__init__()
         self.original_image = pygame.image.load(images_rocket)  
         self.image = self.original_image.copy()
@@ -23,38 +23,69 @@ class Spaceship(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.points = 0
         self.last_shot = 0
+        self.player = player_num
 
     def thrust(self):
-        key = pygame.key.get_pressed()
-        if key[pygame.K_UP]:
-            if self.fuel > 0: 
-                thrust_velocity = pygame.math.Vector2.from_polar((0.05, self.angle - 90))
-                self.velocity += thrust_velocity
-                self.fuel -= 0.3
+        if self.player == 1:
+            key = pygame.key.get_pressed()
+            if key[pygame.K_UP]:
+                if self.fuel > 0: 
+                    thrust_velocity = pygame.math.Vector2.from_polar((0.05, self.angle - 90))
+                    self.velocity += thrust_velocity
+                    self.fuel -= 0.3
+        elif self.player == 2:
+            key = pygame.key.get_pressed()
+            if key[pygame.K_w]:
+                if self.fuel > 0: 
+                    thrust_velocity = pygame.math.Vector2.from_polar((0.05, self.angle - 90))
+                    self.velocity += thrust_velocity
+                    self.fuel -= 0.3
 
     def rotate(self):
-        key = pygame.key.get_pressed()
-        if key[pygame.K_RIGHT]:
-            self.angle += 5
-        if key[pygame.K_LEFT]:
-            self.angle -= 5
+        if self.player == 1:
+            key = pygame.key.get_pressed()
+            if key[pygame.K_RIGHT]:
+                self.angle += 5
+            if key[pygame.K_LEFT]:
+                self.angle -= 5
+        elif self.player == 2:
+            key = pygame.key.get_pressed()
+            if key[pygame.K_d]:
+                self.angle += 5
+            if key[pygame.K_a]:
+                self.angle -= 5
         self.image = pygame.transform.rotate(self.original_image, - self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
         self.mask = pygame.mask.from_surface(self.image)
 
     def shoot(self):
-        now = pygame.time.get_ticks()
-        cooldown = 500
+        if self.player == 1:
+            now = pygame.time.get_ticks()
+            cooldown = 500
+            
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_DOWN]:
+                if now - self.last_shot >= cooldown:
+                    bullet_speed = 10
+                    bullet_velocity = pygame.math.Vector2.from_polar((bullet_speed, self.angle - 90))
+                    
+                    bullet = Bullet(self.position.x, self.position.y, "images/bullet.png", bullet_velocity, self.angle - 90)
+                    Spaceship.bullet_group.add(bullet)
+                    self.last_shot = now
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_DOWN]:
-            if now - self.last_shot >= cooldown:
-                bullet_speed = 10
-                bullet_velocity = pygame.math.Vector2.from_polar((bullet_speed, self.angle - 90))
-                
-                bullet = Bullet(self.position.x, self.position.y, "images/bullet.png", bullet_velocity, self.angle - 90)
-                Spaceship.bullet_group.add(bullet)
-                self.last_shot = now
+        elif self.player == 2:
+            now = pygame.time.get_ticks()
+            cooldown = 500
+            
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_s]:
+                if now - self.last_shot >= cooldown:
+                    bullet_speed = 10
+                    bullet_velocity = pygame.math.Vector2.from_polar((bullet_speed, self.angle - 90))
+                    
+                    bullet = Bullet(self.position.x, self.position.y, "images/bullet.png", bullet_velocity, self.angle - 90)
+                    Spaceship.bullet_group.add(bullet)
+                    self.last_shot = now
 
     def gravity(self):
         self.velocity[1] += GRAVITY
@@ -64,12 +95,21 @@ class Spaceship(pygame.sprite.Sprite):
             self.fuel = STARTING_FUEL
 
     def reset_position(self):
-        start_pos = pygame.math.Vector2(100, 300)
-        self.position = start_pos
-        self.rect.topleft = (100, 300)
-        self.angle = 0
-        self.velocity = pygame.math.Vector2(0, 0)
-        self.fuel = STARTING_FUEL
+        if self.player == 1:
+            start_pos = pygame.math.Vector2(100, 300)
+            self.position = start_pos
+            self.rect.topleft = (100, 300)
+            self.angle = 0
+            self.velocity = pygame.math.Vector2(0, 0)
+            self.fuel = STARTING_FUEL
+
+        elif self.player == 2:
+            start_pos = pygame.math.Vector2(config.SCREEN_X-100, 300)
+            self.position = start_pos
+            self.rect.topleft = (config.SCREEN_X-100, 300)
+            self.angle = 0
+            self.velocity = pygame.math.Vector2(0, 0)
+            self.fuel = STARTING_FUEL
 
     def wall_crash(self):
         if self.position.x < 0: 
@@ -86,14 +126,16 @@ class Spaceship(pygame.sprite.Sprite):
             self.points -= 1
         
     def update(self, fuel_group, obstacle_group):
+    
         self.gravity()
         self.fuel_ship(fuel_group)
-        self.thrust()
+        self.thrust()            
         self.rotate()
         self.shoot()
         self.wall_crash()
 
         self.position += self.velocity
+
 
         if pygame.sprite.spritecollide(self, obstacle_group, False, pygame.sprite.collide_mask):
             self.reset_position()
