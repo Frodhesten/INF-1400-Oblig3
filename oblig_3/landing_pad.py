@@ -11,3 +11,4 @@ class Landing_pad(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.original_image, (100, 100))  
         self.position = pygame.math.Vector2(self.x, self.y)
         self.rect = self.image.get_rect(topleft=(self.x, self.y))
+        self.mask = pygame.mask.from_surface(self.image)

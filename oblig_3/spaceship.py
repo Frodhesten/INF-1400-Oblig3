@@ -21,16 +21,16 @@ class Spaceship(pygame.sprite.Sprite):
         self.fuel = STARTING_FUEL
         self.thrust_vector = pygame.math.Vector2(0, 0)
         self.mask = pygame.mask.from_surface(self.image)
-        self.score = 0
+        self.points = 0
         self.last_shot = 0
 
     def thrust(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_UP]:
             if self.fuel > 0: 
-                thrust_velocity = pygame.math.Vector2.from_polar((0.1, self.angle - 90))
+                thrust_velocity = pygame.math.Vector2.from_polar((0.05, self.angle - 90))
                 self.velocity += thrust_velocity
-                self.fuel -= 0.5
+                self.fuel -= 0.3
 
     def rotate(self):
         key = pygame.key.get_pressed()
@@ -44,7 +44,7 @@ class Spaceship(pygame.sprite.Sprite):
 
     def shoot(self):
         now = pygame.time.get_ticks()
-        cooldown = 1000
+        cooldown = 500
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_DOWN]:
@@ -60,7 +60,7 @@ class Spaceship(pygame.sprite.Sprite):
         self.velocity[1] += GRAVITY
 
     def fuel_ship(self, fuel_group):
-        if pygame.sprite.spritecollide(self, fuel_group, False):  #chat
+        if pygame.sprite.spritecollide(self, fuel_group, False, pygame.sprite.collide_mask):
             self.fuel = STARTING_FUEL
 
     def reset_position(self):
@@ -69,21 +69,21 @@ class Spaceship(pygame.sprite.Sprite):
         self.rect.topleft = (100, 300)
         self.angle = 0
         self.velocity = pygame.math.Vector2(0, 0)
-        self.fuel = 100
+        self.fuel = STARTING_FUEL
 
     def wall_crash(self):
         if self.position.x < 0: 
             self.reset_position()
-        # self.score -= 1
+            self.points -= 1
         elif self.position.x > config.SCREEN_X:  
             self.reset_position()
-        # self.score -= 1
+            self.points -= 1
         elif self.position.y < 0:  
             self.reset_position()
-        # self.score= 1
+            self.points -= 1
         elif self.position.y > config.SCREEN_Y:  
             self.reset_position()
-        # self.score -= 1
+            self.points -= 1
         
     def update(self, fuel_group, obstacle_group):
         self.gravity()
@@ -97,6 +97,7 @@ class Spaceship(pygame.sprite.Sprite):
 
         if pygame.sprite.spritecollide(self, obstacle_group, False, pygame.sprite.collide_mask):
             self.reset_position()
+            self.points -= 1
 
         self.rect.center = self.position
         self.rect.center = (int(self.position.x), int(self.position.y))
