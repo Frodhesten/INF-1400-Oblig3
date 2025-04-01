@@ -32,9 +32,11 @@ class Game:
 
     fuel_group = pygame.sprite.Group()
     fuel_group.add(landing_pad.Landing_pad("images/fuel.png", 50, config.SCREEN_Y/2))
-    fuel_group.add(landing_pad.Landing_pad("images/fuel.png", config.SCREEN_X-150, config.SCREEN_Y/2))
 
-    def print_text(self, message, x=10, y=10):
+    fuel_group.add(landing_pad.Landing_pad("images/fuel_flipped.png", config.SCREEN_X-150, config.SCREEN_Y/2))
+                                    
+
+    def print_text(self, message, x=10, y=10): #chat
 
         TEXT_COLOR = (255, 255, 255)
         font_obj = pygame.font.Font(None, 32)
@@ -62,9 +64,8 @@ class Game:
             spaceship.Spaceship.bullet_group.draw(screen)
 
             spaceship_instance = next(iter(Game.spaceship_group))
-            self.print_text(f"Fuel: {int(spaceship_instance.fuel)}", 10, 10)
 
-            points = next(iter(Game.spaceship_group))
+            self.print_text(f"Fuel: {int(spaceship_instance.fuel)}", 10, 10)
             self.print_text(f"Points: {int(spaceship_instance.points)}", 10, 30)
             
             pygame.display.set_caption('Oblig 3 INF-1400')
