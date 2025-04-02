@@ -1,9 +1,7 @@
 import pygame
 import config
-from obstacle import Obstacle
 from config import GRAVITY, STARTING_FUEL
 from bullet import Bullet
-from landing_pad import Landing_pad
 
 class Spaceship(pygame.sprite.Sprite):
 
@@ -31,14 +29,14 @@ class Spaceship(pygame.sprite.Sprite):
             key = pygame.key.get_pressed()
             if key[pygame.K_UP]:
                 if self.fuel > 0: 
-                    thrust_velocity = pygame.math.Vector2.from_polar((0.05, self.angle - 90))
+                    thrust_velocity = pygame.math.Vector2.from_polar((0.03, self.angle - 90))
                     self.velocity += thrust_velocity
                     self.fuel -= 0.3
         elif self.player == 2:
             key = pygame.key.get_pressed()
             if key[pygame.K_w]:
                 if self.fuel > 0: 
-                    thrust_velocity = pygame.math.Vector2.from_polar((0.05, self.angle - 90))
+                    thrust_velocity = pygame.math.Vector2.from_polar((0.03, self.angle - 90))
                     self.velocity += thrust_velocity
                     self.fuel -= 0.3
 
@@ -46,15 +44,15 @@ class Spaceship(pygame.sprite.Sprite):
         if self.player == 1:
             key = pygame.key.get_pressed()
             if key[pygame.K_RIGHT]:
-                self.angle += 5
+                self.angle += 2
             if key[pygame.K_LEFT]:
-                self.angle -= 5
+                self.angle -= 2
         elif self.player == 2:
             key = pygame.key.get_pressed()
             if key[pygame.K_d]:
-                self.angle += 5
+                self.angle += 2
             if key[pygame.K_a]:
-                self.angle -= 5
+                self.angle -= 2
         self.image = pygame.transform.rotate(self.original_image, - self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
         self.mask = pygame.mask.from_surface(self.image)
@@ -126,7 +124,7 @@ class Spaceship(pygame.sprite.Sprite):
             self.reset_position()
             self.points -= 1
         
-    def update(self, fuel_group, obstacle_group):
+    def update(self, fuel_group, obstacle_group, spaceship_group):
         self.gravity()
         self.fuel_ship(fuel_group)
         self.thrust()            
@@ -140,15 +138,21 @@ class Spaceship(pygame.sprite.Sprite):
             self.reset_position()
             self.points -= 1
 
+         
         if self.player == 1:
             if pygame.sprite.spritecollide(self, Spaceship.bullet_2_group, True, pygame.sprite.collide_mask):
                 self.reset_position()
-                self.points -= 1
+                for spaceship in spaceship_group:
+                    if spaceship.player == 2:
+                        spaceship.points += 1
+
         if self.player == 2:
             if pygame.sprite.spritecollide(self, Spaceship.bullet_1_group, True, pygame.sprite.collide_mask):
                 self.reset_position()
-                self.points -= 1
-        
+                for spaceship in spaceship_group:
+                    if spaceship.player == 1:
+                        spaceship.points += 1
+    
 
         self.rect.center = self.position
         self.rect.center = (int(self.position.x), int(self.position.y))
