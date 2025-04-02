@@ -42,8 +42,12 @@ class Spaceship(pygame.sprite.Sprite):
     def shoot(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN]:
-            bullet_velocity = pygame.math.Vector2(self.angle)
-            bullet_velocity.clamp_magnitude_ip(2)
+            #bullet_velocity = pygame.math.Vector2(self.angle)
+            #bullet_velocity.clamp_magnitude_ip(2)
+            #self.bullet_group.add(Bullet(self.position[0], self.position[1], "images/bullet.png", bullet_velocity))
+
+            bullet_velocity = pygame.math.Vector2()
+            bullet_velocity.from_polar((5, self.angle - 90))
             self.bullet_group.add(Bullet(self.position[0], self.position[1], "images/bullet.png", bullet_velocity))
 
     def gravity(self):
@@ -58,6 +62,7 @@ class Spaceship(pygame.sprite.Sprite):
         self.fuel_ship(fuel_group)
         self.thrust()
         self.rotate()
+        self.shoot()
         self.position += self.velocity
         self.rect.center = self.position
 
