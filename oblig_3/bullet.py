@@ -1,14 +1,24 @@
 import pygame
-import math
-import obstacle
+import spaceship
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, x, y, images_bullet, velocity):
+
+    def __init__(self, x, y, image_path, velocity, angle):
         super().__init__()
-        self.original_image = pygame.image.load(images_bullet)  
-        self.image = self.original_image.copy()
+
+        original_image = pygame.image.load(image_path).convert_alpha()
+        rotated_image = pygame.transform.rotate(original_image, - angle)
+        self.image = pygame.transform.scale(rotated_image, (50, 50))
+        self.mask = pygame.mask.from_surface(self.image)
+        
         self.rect = self.image.get_rect(center=(x, y))
         self.position = pygame.math.Vector2(x, y)
         self.velocity = velocity
+
+    def update(self):
+        self.rect.x += self.velocity.x
+        self.rect.y += self.velocity.y
+
+
     
     

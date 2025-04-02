@@ -8,7 +8,6 @@ pygame.init()
 
 BG_FILENAME = "images/BG.jpeg"
 FUEL_FILENAME = "images/fuel.png"
-OBSTACLE_FILENAME = "imgaes/obstacle.png"
 
 fuel_img = pygame.image.load(FUEL_FILENAME)
 fuel_img = pygame.transform.scale(fuel_img, (20, 20))
@@ -21,42 +20,66 @@ background = background.convert()
 
 clock = pygame.time.Clock()
 
-#spaceship1 = Spaceship(100, 300, "rocket.png")
+class Game:
 
-spaceship_group = pygame.sprite.Group()
-for _ in range(2):
-    spaceship_group.add(spaceship.Spaceship(100, 300, "images/rocket.png"))
+    spaceship_group = pygame.sprite.Group()
+    spaceship_group.add(spaceship.Spaceship(100, 300, "images/rocket.png", 1))
+    spaceship_group.add(spaceship.Spaceship(config.SCREEN_X-100, 300, "images/rocket2.png", 2))
 
-obstacle_group = pygame.sprite.Group()
-obstacle_group.add(obstacle.Obstacle("images/obstacle.png", config.SCREEN_X / 2, config.SCREEN_Y / 2))
+    obstacle_group = pygame.sprite.Group()
+    obstacle_group.add(obstacle.Obstacle("images/obstacle.png", config.SCREEN_X / 2, config.SCREEN_Y / 2))
 
-fuel_group = pygame.sprite.Group()
-fuel_group.add(landing_pad.Landing_pad("images/fuel.png", 50, config.SCREEN_Y/2))
-fuel_group.add(landing_pad.Landing_pad("images/fuel.png", config.SCREEN_X-150, config.SCREEN_Y/2))
+    fuel_group = pygame.sprite.Group()
+    fuel_group.add(landing_pad.Landing_pad("images/fuel.png", 50, config.SCREEN_Y/2))
 
-def start_game():
-    while True:
-        event = pygame.event.poll()
-        if event.type == pygame.QUIT:
-            break
-        
-        screen.blit(background, (0, 0))
+    fuel_group.add(landing_pad.Landing_pad("images/fuel_flipped.png", config.SCREEN_X-150, config.SCREEN_Y/2))
+                                    
 
-        pygame.sprite.groupcollide(spaceship_group, obstacle_group, False, True)
+    def print_text(self, message, x=10, y=10): #chat
 
-        spaceship_group.update(fuel_group)
-        spaceship_group.draw(screen)
+        TEXT_COLOR = (255, 255, 255)
+        font_obj = pygame.font.Font(None, 32)
+        text_surface = font_obj.render(message, True, TEXT_COLOR)
+        screen.blit(text_surface, (x, y))
 
-        obstacle_group.draw(screen)
-        fuel_group.draw(screen)
+    def start_game(self):
 
-        #spaceship.bullet_group.update()
-        #spaceship.bullet_group.draw(screen)
+        while True:
 
-        pygame.display.update()
-        clock.tick(60)
+            event = pygame.event.poll()
+            if event.type == pygame.QUIT:
+                break
+
+            screen.blit(background, (0, 0))
+
+
+            Game.fuel_group.draw(screen)
+
+            Game.spaceship_group.update(Game.fuel_group, Game.obstacle_group, Game.spaceship_group)
+            Game.spaceship_group.draw(screen)
+
+            Game.obstacle_group.draw(screen)
+
+            spaceship.Spaceship.bullet_1_group.update()
+            spaceship.Spaceship.bullet_1_group.draw(screen)
+
+            spaceship.Spaceship.bullet_2_group.update()
+            spaceship.Spaceship.bullet_2_group.draw(screen)
+
+            for spaceship_instance in Game.spaceship_group: 
+                if spaceship_instance.player == 1:
+                    self.print_text(f"Fuel: {int(spaceship_instance.fuel)}", 10, 10)
+                    self.print_text(f"Points: {int(spaceship_instance.points)}", 10, 30)
+                elif spaceship_instance.player == 2:
+                    self.print_text(f"Fuel: {int(spaceship_instance.fuel)}", config.SCREEN_X - 100, 10)
+                    self.print_text(f"Points: {int(spaceship_instance.points)}", config.SCREEN_X - 100, 30)
+            
+            pygame.display.set_caption('Oblig 3 INF-1400')
+            pygame.display.update()
+            clock.tick(60)
+
 
 if __name__ == "__main__":
-    start_game()
+    Game().start_game()
 
 
