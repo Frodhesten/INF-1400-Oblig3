@@ -1,3 +1,7 @@
+'''
+Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
+
+'''
 import pygame
 
 

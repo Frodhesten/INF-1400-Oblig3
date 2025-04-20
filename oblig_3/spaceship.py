@@ -1,3 +1,7 @@
+'''
+Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
+
+'''
 import pygame
 import config
 from config import GRAVITY, STARTING_FUEL
@@ -31,7 +35,8 @@ class Spaceship(pygame.sprite.Sprite):
                 if self.fuel > 0: 
                     thrust_velocity = pygame.math.Vector2.from_polar((0.03, self.angle - 90))
                     self.velocity += thrust_velocity
-                    self.fuel -= 0.3
+                    self.fuel -= 0.1
+                    
         elif self.player == 1:
             key = pygame.key.get_pressed()
             if key[pygame.K_w]:
@@ -47,12 +52,14 @@ class Spaceship(pygame.sprite.Sprite):
                 self.angle += 2
             if key[pygame.K_LEFT]:
                 self.angle -= 2
+
         elif self.player == 1:
             key = pygame.key.get_pressed()
             if key[pygame.K_d]:
                 self.angle += 2
             if key[pygame.K_a]:
                 self.angle -= 2
+
         self.image = pygame.transform.rotate(self.original_image, - self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
         self.mask = pygame.mask.from_surface(self.image)
@@ -137,7 +144,6 @@ class Spaceship(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self, obstacle_group, False, pygame.sprite.collide_mask):
             self.reset_position()
             self.points -= 1
-
 
         if self.player == 2:
             if pygame.sprite.spritecollide(self, Spaceship.bullet_2_group, True, pygame.sprite.collide_mask):

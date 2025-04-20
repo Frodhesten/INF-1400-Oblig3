@@ -1,3 +1,8 @@
+'''
+Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
+
+'''
+
 import pygame
 import obstacle
 import config
@@ -34,8 +39,7 @@ class Game:
 
     fuel_group.add(landing_pad.Landing_pad("images/fuel_flipped.png", config.SCREEN_X-150, config.SCREEN_Y/2))
                                     
-
-    def print_text(self, message, x=10, y=10): #chat
+    def print_text(self, message, x=10, y=10): # written by ChatGPT
 
         TEXT_COLOR = (255, 255, 255)
         font_obj = pygame.font.Font(None, 32)
@@ -51,7 +55,6 @@ class Game:
                 break
 
             screen.blit(background, (0, 0))
-
 
             Game.fuel_group.draw(screen)
 
@@ -70,6 +73,7 @@ class Game:
                 if spaceship_instance.player == 1:
                     self.print_text(f"Fuel: {int(spaceship_instance.fuel)}", 10, 10)
                     self.print_text(f"Points: {int(spaceship_instance.points)}", 10, 30)
+                    
                 elif spaceship_instance.player == 2:
                     self.print_text(f"Fuel: {int(spaceship_instance.fuel)}", config.SCREEN_X - 100, 10)
                     self.print_text(f"Points: {int(spaceship_instance.points)}", config.SCREEN_X - 100, 30)
@@ -77,7 +81,6 @@ class Game:
             pygame.display.set_caption('Oblig 3 INF-1400')
             pygame.display.update()
             clock.tick(60)
-
 
 if __name__ == "__main__":
     Game().start_game()
