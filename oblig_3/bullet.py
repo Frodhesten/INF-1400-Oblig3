@@ -1,12 +1,13 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
-Classes: Bullet
-    This class creates a bullet that the spaceships shoot
+Bullet module:
+    This module creates a bullet that the spaceships shoot at eachother and try to destroy the opponents ship
 
 Usage:
     This is being used everytime a spaceship wants to shoot, then a bullet is drawn
 '''
+
 import pygame
 import spaceship
 

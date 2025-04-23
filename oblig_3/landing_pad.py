@@ -1,12 +1,13 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
-Classes: Landing_pad
-    This class creates landing pads for the spaceships to refuel at
+Landing_pad module:
+    This module creates landing pads for the spaceships to refuel at
 
 Usage:
     This is being used by the main file to draw the refuel stations
 '''
+
 import pygame
 
 

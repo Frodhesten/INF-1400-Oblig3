@@ -1,8 +1,8 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
-Classes: Spaceship
-    The spaceship class creates a controllable spaceship which can thrust forward, rotate and shoot bullets. 
+Spaceship module:
+    This module creates a spaceship that can thrust, rotate and shoot. I also uses fuel while thrusting
 
 Usage:
     This is used in the main file to draw two spaceships that can fight eachother

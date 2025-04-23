@@ -1,11 +1,8 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
-Classes: Game
-    The game class is used to run the game and loads everything onto the screen
-
 Usage:
-    This file is used to run the game, itimports the other files and adds them together
+    This file is used to run the game, it imports the other files and adds them together
 '''
 
 import pygame

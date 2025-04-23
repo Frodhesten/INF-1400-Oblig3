@@ -1,12 +1,13 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
-Classes: Obstacle
-    The obstacle class gives the obstacle the needed variables to be drawn
+Obstacle module:
+    The obstacle module creates the obstacle with the needed variables to be drawn
 
 Usage:
     This is used in the main file to draw the obstacle
 '''
+
 import pygame
 import obstacle
 import config
