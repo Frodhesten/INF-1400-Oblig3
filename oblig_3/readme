@@ -1,0 +1,10 @@
+Authors of the code: Frode Eggenfellner and Magnus Moi Tytlandsvik
+
+The game is played using the w,a,s and d for player 1, and the arrow keys for player 2
+You control the spaceship by usin w or up arrow to thrust forward, the a and d or the side arrow keys rotate the ship
+If you press s or down arrow the ship will shoot
+The goaal of the game is to shoot the other player and kill them
+If you crash into the obstacle or any walls you will respawn and lose a point
+The shisp have fuel, but it will be refueled by going over the fuel tanks on the screen
+
+The code is run by writing: python3 main.py
