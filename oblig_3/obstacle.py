@@ -1,13 +1,18 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
+Classes: Obstacle
+    The obstacle class gives the obstacle the needed variables to be drawn
+
+Usage:
+    This is used in the main file to draw the obstacle
 '''
 import pygame
 import obstacle
 import config
 
 
-class Obstacle(pygame.sprite.Sprite):
+class Obstacle(pygame.sprite.Sprite): # Creates a class for the obstacle with the needed variables
 
     def __init__(self, images_obstacle, x, y):
         super().__init__()

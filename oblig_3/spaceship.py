@@ -1,13 +1,19 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
+Classes: Spaceship
+    The spaceship class creates a controllable spaceship which can thrust forward, rotate and shoot bullets. 
+
+Usage:
+    This is used in the main file to draw two spaceships that can fight eachother
 '''
+
 import pygame
 import config
 from config import GRAVITY, STARTING_FUEL
 from bullet import Bullet
 
-class Spaceship(pygame.sprite.Sprite):
+class Spaceship(pygame.sprite.Sprite): # Class for a spaceship
 
     bullet_1_group = pygame.sprite.Group()
     bullet_2_group = pygame.sprite.Group()
@@ -28,12 +34,12 @@ class Spaceship(pygame.sprite.Sprite):
         self.last_shot = 0
         self.player = player_num
 
-    def thrust(self):
+    def thrust(self): # Method for the ship to thrust forward
         if self.player == 2:
-            key = pygame.key.get_pressed()
-            if key[pygame.K_UP]:
+            key = pygame.key.get_pressed() 
+            if key[pygame.K_UP]: # Checks if the button is pressed
                 if self.fuel > 0: 
-                    thrust_velocity = pygame.math.Vector2.from_polar((0.03, self.angle - 90))
+                    thrust_velocity = pygame.math.Vector2.from_polar((0.03, self.angle - 90)) # finds where the ship is looking
                     self.velocity += thrust_velocity
                     self.fuel -= 0.1
                     
@@ -45,7 +51,7 @@ class Spaceship(pygame.sprite.Sprite):
                     self.velocity += thrust_velocity
                     self.fuel -= 0.3
 
-    def rotate(self):
+    def rotate(self): # Method to rotate the ship left or right
         if self.player == 2:
             key = pygame.key.get_pressed()
             if key[pygame.K_RIGHT]:
@@ -64,16 +70,16 @@ class Spaceship(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.rect.center)
         self.mask = pygame.mask.from_surface(self.image)
 
-    def shoot(self):
+    def shoot(self): # Method to make the ship shoot
         if self.player == 2:
             now = pygame.time.get_ticks()
             cooldown = 500
             
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_DOWN]:
-                if now - self.last_shot >= cooldown:
+            if keys[pygame.K_DOWN]: # Checks if button is pressed
+                if now - self.last_shot >= cooldown: # Cooldown for the shooting ability
                     bullet_speed = 10
-                    bullet_velocity = pygame.math.Vector2.from_polar((bullet_speed, self.angle - 90))
+                    bullet_velocity = pygame.math.Vector2.from_polar((bullet_speed, self.angle - 90)) # Finds where ship is looking
                     
                     bullet = Bullet(self.position.x, self.position.y, "images/bullet.png", bullet_velocity, self.angle - 90)
                     Spaceship.bullet_1_group.add(bullet)
@@ -100,7 +106,7 @@ class Spaceship(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self, fuel_group, False, pygame.sprite.collide_mask):
             self.fuel = STARTING_FUEL
 
-    def reset_position(self):
+    def reset_position(self): # Resets ships position when it is destroyed
         if self.player == 1:
             start_pos = pygame.math.Vector2(100, 300)
             self.position = start_pos
@@ -140,7 +146,8 @@ class Spaceship(pygame.sprite.Sprite):
         self.wall_crash()
 
         self.position += self.velocity
-
+        
+        # Checks if ship is colliding with anything
         if pygame.sprite.spritecollide(self, obstacle_group, False, pygame.sprite.collide_mask):
             self.reset_position()
             self.points -= 1

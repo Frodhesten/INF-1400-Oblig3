@@ -1,11 +1,16 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
+Classes: Bullet
+    This class creates a bullet that the spaceships shoot
+
+Usage:
+    This is being used everytime a spaceship wants to shoot, then a bullet is drawn
 '''
 import pygame
 import spaceship
 
-class Bullet(pygame.sprite.Sprite):
+class Bullet(pygame.sprite.Sprite): # Creates a class for every bullet with the needed variables
 
     def __init__(self, x, y, image_path, velocity, angle):
         super().__init__()

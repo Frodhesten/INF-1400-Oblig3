@@ -1,11 +1,16 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
+Classes: Landing_pad
+    This class creates landing pads for the spaceships to refuel at
+
+Usage:
+    This is being used by the main file to draw the refuel stations
 '''
 import pygame
 
 
-class Landing_pad(pygame.sprite.Sprite):
+class Landing_pad(pygame.sprite.Sprite): # Creates a class for the landing bads with needed variables
 
     def __init__(self, images_landing_pad, x, y):
         super().__init__()

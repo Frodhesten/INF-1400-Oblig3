@@ -1,6 +1,11 @@
 '''
 Authors: Frode Eggenfellner and Magnus Moi Tytlandsvik
 
+Classes: Game
+    The game class is used to run the game and loads everything onto the screen
+
+Usage:
+    This file is used to run the game, itimports the other files and adds them together
 '''
 
 import pygame
@@ -11,6 +16,7 @@ import landing_pad
 
 pygame.init()
 
+# Loads in different images
 BG_FILENAME = "images/BG.jpeg"
 FUEL_FILENAME = "images/fuel.png"
 
@@ -23,10 +29,11 @@ background = pygame.image.load(BG_FILENAME)
 background = pygame.transform.scale(background, (config.SCREEN_X, config.SCREEN_Y))
 background = background.convert()
 
-clock = pygame.time.Clock()
+clock = pygame.time.Clock() # Creates a clock 
 
 class Game:
 
+    # Creates groupes for the different sprites
     spaceship_group = pygame.sprite.Group()
     spaceship_group.add(spaceship.Spaceship(100, 300, "images/rocket.png", 1))
     spaceship_group.add(spaceship.Spaceship(config.SCREEN_X-100, 300, "images/rocket2.png", 2))
@@ -46,7 +53,7 @@ class Game:
         text_surface = font_obj.render(message, True, TEXT_COLOR)
         screen.blit(text_surface, (x, y))
 
-    def start_game(self):
+    def start_game(self): # A method that draws and updates everything on the srceen
 
         while True:
 
@@ -83,6 +90,6 @@ class Game:
             clock.tick(60)
 
 if __name__ == "__main__":
-    Game().start_game()
+    Game().start_game() # Starts the game
 
 
